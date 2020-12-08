@@ -1,0 +1,8 @@
+# Make sure roles/base has been applied
+---
+- name: roles/base/tasks/prompt.yml
+  set_fact: dummy=0
+
+- name: Deploy {{ PROMPT_FILE }}
+  copy: src={{ PROMPT_FILE }} dest=/etc/profile.d
+  become: yes

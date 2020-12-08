@@ -1,0 +1,11 @@
+# Make sure the user running ansible belongs to wheel group 
+---
+- name: roles/base/tasks/users.yml
+  set_fact: dummy=0
+
+- name: Make "{{ ansible_user_id }}" belongs to wheel
+  user:
+    name: "{{ ansible_user_id }}" 
+    append: yes
+    groups: wheel
+  become: yes

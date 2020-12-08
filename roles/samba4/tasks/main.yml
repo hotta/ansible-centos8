@@ -1,0 +1,6 @@
+---
+- name: roles/samba/tasks/main.yml
+  set_fact: dummy=0
+
+- import_tasks: core.yml
+  tags: samba

@@ -1,0 +1,28 @@
+---
+- name: roles/base/tasks/phprepo.yml
+  set_fact: dummy=0
+
+- name: Validate PHP_REPO variable
+  set_fact: dummy=0
+  failed_when:
+    - PHP_REPO != 'remi74'
+    - PHP_REPO != 'remi80'
+
+- name: set vars for php repositories
+  include_vars: "{{ PHP_REPO }}.yml"
+
+- name: Check existence of RPM-GPG-KEY-EPEL-{{ _V }}
+  stat:
+    path: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-{{ _V }}
+  register: epel_key
+
+- name: Install epel repository
+  dnf:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+  become: yes
+
+- name: Install remi repositories
+  dnf:
+    name: "{{ PHP_REPO_PKG }}"
+    disable_gpg_check: yes
+  become: yes

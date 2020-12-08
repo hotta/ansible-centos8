@@ -1,0 +1,10 @@
+# Set time stuff
+---
+- name: roles/base/tasks/time.yml
+  set_fact: dummy=0
+
+- name: Set time zone 
+  timezone:
+    hwclock: UTC
+    name: "{{ TIME_ZONE }}"
+  become: yes

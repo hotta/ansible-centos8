@@ -1,0 +1,24 @@
+- name: reload sshd
+  service: name=sshd state=reloaded
+  become: yes
+- name: reload network
+  service: name=network state=restarted
+  become: yes
+- name: reload sysctl
+  shell: /usr/sbin/sysctl -p
+  become: yes
+- name: reload chronyd
+  service: name=chronyd state=restarted enabled=yes
+  become: yes
+- name: start nginx
+  service: name=nginx state=started enabled=yes
+  become: yes
+- name: reload nginx
+  service: name=nginx state=reloaded enabled=yes
+  become: yes
+- name: restart nginx
+  service: name=nginx state=restarted enabled=yes
+  become: yes
+- name: start slapd
+  service: name=slapd state=restarted enabled=yes
+  become: yes
