@@ -1,0 +1,30 @@
+---
+- name: roles/docker/tasks/main.yml
+  set_fact: dummy=0
+
+- name: Install dependencies
+  dnf:
+    name:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+  become: yes
+
+- name: Add Repository for docker
+  command: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  become: yes
+
+- name: Install docker
+  dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+  become: yes
+
+- name: Start docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes
