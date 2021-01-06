@@ -64,7 +64,6 @@
       - python3-pyasn1
   become: yes
 # https://git.samba.org/?p=samba.git;a=blob_plain;f=bootstrap/generated-dists/centos8/bootstrap.sh;hb=v4-13-test
-# We make a point of excluding krb5-devel and krb5-server to use internal Heimdal.
 
 - name: Install rest packages
   dnf:
@@ -112,5 +111,43 @@
     name:
       - rpmdevtools
       - libtalloc-devel
+      - bind
+      - e2fsprogs-devel
+      - krb5-server
+      - ldb-tools
+      - libaio-devel
+      - libcmocka-devel
+      - libtdb-devel
+      - libtevent-devel
+      - mingw32-gcc
+      - python3-tdb
+      - python3-tevent
+      - tdb-tools
+      - libtommath-devel
+      - texlive-latex-bin-bin
+      - texlive-makeindex-bin
+      - texlive-metafont
+      - texlive-mfware-bin
+      - doxygen
+      - autogen
+      - autogen-libopts-devel
+      - fipscheck
+      - gperf
+      - libunistring-devel
+      - trousers-devel
+      - unbound-devel
+      - ghostscript-tools-dvipdf
+      - libtiff-tools
+      - texlive-dvips-bin
+      - texlive-fancyhdr
+      - texinfo-tex
   become: yes
   tags: new
+
+# error: Failed build dependencies:
+#         datefudge is needed by compat-gnutls36-3.6.8-12.el8.x86_64
+#         softhsm is needed by compat-gnutls36-3.6.8-12.el8.x86_64
+        
+# - libldb-devel >= 2.2.0 is needed by samba-0:4.13.3-0.el8.x86_64
+# - python3-ldb-devel >= 2.2.0 is needed by samba-0:4.13.3-0.el8.x86_64
+# - python3-talloc-devel >= 2.3.1 is needed by samba-0:4.13.3-0.el8.x86_64
