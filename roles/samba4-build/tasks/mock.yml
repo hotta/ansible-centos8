@@ -1,0 +1,16 @@
+---
+- name: roles/samba4-build/tasks/mock.yml
+  set_fact: dummy=0
+
+- name: Install mock
+  dnf:
+    name:
+      - mock-core-configs
+  become: yes
+
+- name: take effective user to mock group
+  user:
+    name: "{{ ansible_user_id }}"
+    group: mock
+    append: yes
+  become: yes
