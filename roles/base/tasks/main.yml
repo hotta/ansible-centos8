@@ -3,6 +3,7 @@
 - name: roles/base/tasks/main.yml
   set_fact: dummy=0
 
+- import_tasks: powertools.yml
 - import_tasks: phprepo.yml
 - import_tasks: mandatory.yml
 - import_tasks: prompt.yml

@@ -1,0 +1,5 @@
+# ansible-playbook samba4-build.yml
+---
+- hosts: localhost
+  roles:
+    - samba4-build
