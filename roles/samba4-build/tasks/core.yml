@@ -3,23 +3,6 @@
 - name: roles/samba4-build/tasks/core.yml
   set_fact: dummy=0
 
-- name: Install packages for build
-  dnf:
-    name:
-      - dnf-plugins-core
-      - epel-release
-  become: yes
-
-- name: Enable PowerTools
-  command: yum-config-manager --enable powertools 
-  become: yes
-
-- name: Enable Devel repository 
-  template:
-    src: CentOS-Linux-Devel.repo
-    dest: /etc/yum.repos.d/
-  become: yes
-
 - name: Install Development-Tools
   dnf:
     name: "@Development Tools"

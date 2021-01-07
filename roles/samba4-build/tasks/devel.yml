@@ -1,0 +1,34 @@
+---
+# https://wiki.samba.org/index.php/Package_Dependencies_Required_to_Build_Samba
+- name: roles/samba4-build/tasks/devel.yml
+  set_fact: dummy=0
+
+- name: Install packages for build
+  dnf:
+    name:
+      - dnf-plugins-core
+      - epel-release
+  become: yes
+
+- name: Enable PowerTools
+  command: yum-config-manager --enable powertools 
+  become: yes
+
+- name: Get md5sum for CentOS-Linux-Devel.repo
+  shell: md5sum /etc/yum.repos.d/CentOS-Linux-Devel.repo | awk '{print $1}'
+  register: devel_md5
+
+# - debug: var=devel_md5
+ 
+- name: Enable Devel repository 
+  template:
+    src: CentOS-Linux-Devel.repo
+    dest: /etc/yum.repos.d/
+  become: yes
+
+- name: dnf update only once just after enabling Devel.repo
+  dnf:
+    name: '*'
+    state: latest
+  when: devel_md5.stdout == "04d60ffa60eecaa2d40ee507223a593f"
+  become: yes

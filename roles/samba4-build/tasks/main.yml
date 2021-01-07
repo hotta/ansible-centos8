@@ -2,6 +2,7 @@
 - name: roles/samba4-build/tasks/main.yml
   set_fact: dummy=0
 
+- import_tasks: devel.yml
 - import_tasks: core.yml
 - import_tasks: mock.yml
   tags: mock
