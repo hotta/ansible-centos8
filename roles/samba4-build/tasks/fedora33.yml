@@ -9,12 +9,10 @@
       - dnf-plugins-core
       - epel-release
   become: yes
-  when: ansible_distribution == "CentOS"
 
-- name: Enable PowerTools
-  command: yum-config-manager --enable powertools 
-  become: yes
-  when: ansible_distribution == "CentOS"
+  - name: Enable PowerTools
+    command: yum-config-manager --enable powertools 
+    become: yes
 
 - name: Get md5sum for CentOS-Linux-Devel.repo
   shell: md5sum /etc/yum.repos.d/CentOS-Linux-Devel.repo | awk '{print $1}'

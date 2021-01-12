@@ -2,5 +2,5 @@
 ---
 - hosts: localhost
   roles:
-    - base
-    - samba4-build
+    - { role: base,         tags: basea }
+    - { role: samba4-build, tags: samba4-build }
