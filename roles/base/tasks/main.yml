@@ -3,6 +3,13 @@
 - name: roles/base/tasks/main.yml
   set_fact: dummy=0
 
+- name: Enable fastest mirror
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    regexp: ^fastestmirror
+    line: fastestmirror=true
+  become: yes
+
 - import_tasks: powertools.yml
 - import_tasks: phprepo.yml
 - import_tasks: mandatory.yml
