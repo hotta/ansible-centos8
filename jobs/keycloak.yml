@@ -1,0 +1,6 @@
+# ansible-playbook keycloak.yml
+---
+- hosts: localhost
+  roles:
+    - adoptopenjdk
+#   - keycloak

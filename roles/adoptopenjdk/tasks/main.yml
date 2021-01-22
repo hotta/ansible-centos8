@@ -1,0 +1,16 @@
+# Adoptopenjdk
+---
+- name: roles/adoptopenjdk/tasks/main.yml
+  set_fact: dummy=0
+
+- name: Add repo
+  copy: 
+    src: adoptopenjdk.repo
+    dest: /etc/yum.repos.d/
+  become: yes
+
+- name: Install Adoptopenjdk-{{ AOJ_VERSION }}
+  dnf:
+    name:
+      - adoptopenjdk-{{ AOJ_VERSION }}-{{ AOJ_JVM }}
+  become: yes

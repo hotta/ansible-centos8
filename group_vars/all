@@ -103,14 +103,6 @@ SNMPTT_LOG_FILE:      '/var/log/snmptt/snmptt.log'
 # ---------------------------- Database ------------------------------
 DB_TYPE:          'pgsql'                 # 'pgsql' or 'mysql' or 'sqlite'
 DB_DEV_CIDR:      [ '192.168.56.0/24' ]
-# ---------------------------- Samba ------------------------------
-# TODO: Interface name in SMB_IP should be expanded from {{SMB_IF}} expr.
-SMB_IF:								'eth1'
-SMB_CON:							'System eth1'
-SMB_IP:								'{{ ansible_eth1.ipv4.address }}'
-SMB_DNS:							'8.8.8.8, 8.8.4.4'
-SMB_DOMAIN:						'MYDOAMIN'	# WORKGROUP
-SMB_HOSTNAME:					'ldap'
-SMB_FQDN:							'{{ SMB_HOSTNAME }}.{{ SMB_DOMAIN }}.example.com'
-SMB_ADMIN:						'Administrator'
-SMB_ADMINPASS:				'p@sswo0rd'
+# --------------------------- Adoptopenjdk ---------------------------
+AOJ_VERSION:	11													# 8,11-15(8 and 11 are LTS)
+AOJ_JVM:			'hotspot'										#	'hotspot' or 'openj9'
