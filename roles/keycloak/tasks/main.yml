@@ -33,7 +33,7 @@
     copy: no
     owner: "{{ KC_USER }}"
     group: "{{ KC_USER }}"
-    mode: 0755
+    mode: 0775
   become: yes
 
 - name: Create symbolic link to extracted directory
@@ -73,4 +73,11 @@
     name: nginx
     state: restarted
     enabled: yes
+  become: yes
+
+- name: Add keycloak entry to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: "{{ KC_USER_FQDN }}"
+    line: 127.0.0.1 {{ KC_USER_FQDN }} {{ KC_MGMT_FQDN }}
   become: yes

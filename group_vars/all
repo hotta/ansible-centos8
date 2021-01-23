@@ -120,4 +120,3 @@ KC_US_USER_PORT:  8080
 KC_US_MGMT_PORT:  9990
 KC_USER_FQDN:     kc.ad.example.com
 KC_MGMT_FQDN:     kcmgmt.ad.example.com
-
