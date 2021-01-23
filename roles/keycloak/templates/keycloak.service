@@ -1,0 +1,15 @@
+[Unit]
+Description=Jboss Application Server
+After=network.target
+
+[Service]
+Type=idle
+Environment=JBOSS_HOME={{ KC_HOME }} JBOSS_LOG_DIR={{ KC_LOGDIR }} "JAVA_OPTS= -Xms1024m -Xmx20480m -XX:MaxPermSize=768m"
+User={{ KC_USER }}
+Group={{ KC_GROUP }}
+ExecStart={{ KC_HOME }}/bin/standalone.sh -b=0.0.0.0
+TimeoutStartSec=600
+TimeoutStopSec=600
+
+[Install]
+WantedBy=multi-user.target

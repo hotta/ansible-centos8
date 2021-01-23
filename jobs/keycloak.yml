@@ -2,5 +2,5 @@
 ---
 - hosts: localhost
   roles:
-    - adoptopenjdk
-#   - keycloak
+    - { role: adoptopenjdk,   tags: jdk }
+    - { role: keycloak,       tags: kc  }
