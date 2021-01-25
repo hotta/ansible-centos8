@@ -116,6 +116,8 @@ KC_USER:        keycloak
 KC_GROUP:       keycloak
 KC_LOGDIR:      /var/log/keycloak
 # ------------------------ Keycloak via nginx -------------------------
+KC_USER_PORT:     80
+KC_MGMT_PORT:     9900                    # ISDN User Adaptation(IUA)
 KC_US_USER_PORT:  8080
 KC_US_MGMT_PORT:  9990
 KC_USER_FQDN:     kc.ad.example.com

@@ -81,3 +81,27 @@
     regexp: "{{ KC_USER_FQDN }}"
     line: 127.0.0.1 {{ KC_USER_FQDN }} {{ KC_MGMT_FQDN }}
   become: yes
+
+- name: Permit access to KC_USER_PORT
+  firewalld:
+    immediate: yes
+    permanent: yes
+    service: http
+    state: enabled
+  become: yes
+
+- name: Permit access to KC_MGMT_PORT
+  firewalld:
+    immediate: yes
+    permanent: yes
+    state: enabled
+    rich_rule: 'rule family=ipv4 port port="{{ KC_MGMT_PORT }}" protocol=tcp accept'
+  become: yes
+  notify: restart firewalld
+
+- name: Enable reverse proxy via nginx(add proxy-address-forwarding="true")
+  lineinfile:
+    path: /opt/keycloak/standalone/configuration/standalone.xml
+    regexp: http-listener
+    line: '                <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="https" enable-http2="true"/>'
+  become: yes
