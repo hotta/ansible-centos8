@@ -1,0 +1,107 @@
+---
+- name: roles/keycloak/tasks/keycloak.yml
+  set_fact: dummy=0
+
+- name: Check if the archive file has already been downloaded
+  stat:
+    path: /tmp/{{ KC_ARCHIVE }}
+  register: kc
+
+# - debug: var=kc
+
+- name: Get keycloak archive
+  get_url:
+    url: "{{ KC_URL }}"
+    dest: /tmp
+  when: not kc.stat.exists
+
+- name: Create group for keycloak 
+  user:
+    name: "{{ KC_GROUP }}"
+  become: yes
+
+- name: Create user for keycloak execution
+  user:
+    name: "{{ KC_USER }}"
+    group: "{{ KC_GROUP }}"
+  become: yes
+
+- name: Extract archive into {{ KC_BASEDIR }}
+  unarchive:
+    src:  /tmp/{{ KC_ARCHIVE }}
+    dest: "{{ KC_BASEDIR }}"
+    copy: no
+    owner: "{{ KC_USER }}"
+    group: "{{ KC_USER }}"
+    mode: 0775
+  become: yes
+
+- name: Create symbolic link to extracted directory
+  file:
+    src:  "{{ KC_BASEDIR }}/keycloak-{{ KC_VERSION }}"
+    dest: "{{ KC_HOME }}"
+    state: link
+  become: yes
+
+- name: Deploy keycloak service file
+  template:
+    src: keycloak.service
+    dest: /etc/systemd/system/
+  become: yes
+
+- name: Create log dir for keycloak
+  file:
+    path: "{{ KC_LOGDIR }}"
+    state: directory
+    owner: "{{ KC_USER }}"
+    group: "{{ KC_USER }}"
+  become: yes
+
+- name: Install nginx
+  yum:
+    name: nginx
+  become: yes
+
+- name: Deploy keycloak.conf for nginx
+  template:
+    src: keycloak.conf
+    dest: /etc/nginx/conf.d/
+  become: yes
+
+- name: Make sure nginx autostart 
+  systemd:
+    name: nginx
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: Add keycloak entry to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    regexp: "{{ KC_USER_FQDN }}"
+    line: 127.0.0.1 {{ KC_USER_FQDN }} {{ KC_MGMT_FQDN }}
+  become: yes
+
+- name: Permit access to KC_USER_PORT
+  firewalld:
+    immediate: yes
+    permanent: yes
+    service: http
+    state: enabled
+  become: yes
+
+- name: Permit access to KC_MGMT_PORT
+  firewalld:
+    immediate: yes
+    permanent: yes
+    state: enabled
+    rich_rule: 'rule family=ipv4 port port="{{ KC_MGMT_PORT }}" protocol=tcp accept'
+  become: yes
+  notify: restart firewalld
+
+- name: Enable reverse proxy via nginx(add proxy-address-forwarding="true")
+  lineinfile:
+    path: /opt/keycloak/standalone/configuration/standalone.xml
+    regexp: http-listener
+    line: '                <http-listener name="default" socket-binding="http" proxy-address-forwarding="true" redirect-socket="https" enable-http2="true"/>'
+  become: yes

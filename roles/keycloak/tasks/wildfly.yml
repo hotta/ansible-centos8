@@ -1,0 +1,54 @@
+---
+- name: roles/keycloak/tasks/wildfly.yml
+  set_fact: dummy=0
+
+- name: Check if the archive file has already been downloaded
+  stat:
+    path: /tmp/{{ WF_ARCHIVE }}
+  register: wf
+
+# - debug: var=wf
+
+- name: Get wildfly archive
+  get_url:
+    url: "{{ WF_URL }}"
+    dest: /tmp
+  when: not wf.stat.exists
+
+- name: Extract wildfly archive into {{ KC_BASEDIR }}
+  unarchive:
+    src:  /tmp/{{ WF_ARCHIVE }}
+    dest: "{{ KC_BASEDIR }}"
+    copy: no
+    owner: "{{ KC_USER }}"
+    group: "{{ KC_USER }}"
+    mode: 0775
+  become: yes
+
+- name: Create symbolic link to extracted directory
+  file:
+    src:  "{{ KC_BASEDIR }}/wildfly-{{ WF_VERSION }}"
+    dest: "{{ WF_HOME }}"
+    state: link
+  become: yes
+
+- name: Check if the client adapter archive file has already been downloaded
+  stat:
+    path: /tmp/{{ KCCA_ARCHIVE }}
+  register: kcca
+
+- name: Get wildfly OpenID Connect Client Adapter archive
+  get_url:
+    url: "{{ KCCA_URL }}"
+    dest: /tmp
+  when: not kcca.stat.exists
+
+- name: Extract Client Adapter archive into {{ KC_BASEDIR }}
+  unarchive:
+    src:  /tmp/{{ KCCA_ARCHIVE }}
+    dest: "{{ WF_HOME }}"
+    copy: no
+    owner: "{{ KC_USER }}"
+    group: "{{ KC_USER }}"
+    mode: 0775
+  become: yes

@@ -116,9 +116,24 @@ KC_USER:        keycloak
 KC_GROUP:       keycloak
 KC_LOGDIR:      /var/log/keycloak
 # ------------------------ Keycloak via nginx -------------------------
+# To avoid conflict of port numbers between keycloak and wildfly,
+# We'd like to specify -Djboss.socket.binding.port-offset=100
 KC_USER_PORT:     80
 KC_MGMT_PORT:     9900                    # ISDN User Adaptation(IUA)
-KC_US_USER_PORT:  8080
-KC_US_MGMT_PORT:  9990
+KC_US_USER_PORT:  8180                    # origin 8080 + 100
+KC_US_MGMT_PORT:  10090                   # origin 9990 + 100
 KC_USER_FQDN:     kc.ad.example.com
 KC_MGMT_FQDN:     kcmgmt.ad.example.com
+# ------------------- Keycloak Initiation Tutorial --------------------
+KC_ADMIN_USER:    kcadmin 
+KC_ADMIN_PASS:    Kcp@ss
+KC_REALM:         demo
+KC_PASS:          user1
+# ------------------------ Wildfly main body --------------------------
+WF_VERSION: 22.0.0.Final
+WF_ARCHIVE: wildfly-{{ WF_VERSION }}.tar.gz
+WF_URL:     https://download.jboss.org/wildfly/{{ WF_VERSION }}/{{ WF_ARCHIVE }}
+WF_HOME:        /opt/wildfly
+# -------------- Wildfly OpenID Connect Client Adapter ----------------
+KCCA_ARCHIVE: keycloak-oidc-wildfly-adapter-{{ KC_VERSION }}.tar.gz
+KCCA_URL:     https://github.com/keycloak/keycloak/releases/download/{{ KC_VERSION }}/{{ KCCA_ARCHIVE }}
