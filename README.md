@@ -49,6 +49,7 @@ $ git clone https://github.com/hotta/ansible-centos8.git
 
 Take a glance at group_vars/all first. If you'd like to customize any variable, you can override it by write down in host_vars/localhost.yml.
 
+Especially, if you prefer to use CentOS Stream 8, set ENABLE_STREAM to true here.
 ```bash
 $ cd host_vars
 $ cp localhost.yml.tmpl localhost.yml

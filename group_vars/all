@@ -5,6 +5,7 @@ _V:                   "{{ ansible_distribution_major_version }}"
 SYSTEM_LOCALE:        ja
 TIME_ZONE:            Asia/Tokyo
 PROMPT_FILE:          bash_prompt.sh
+ENABLE_STREAM:        false
 # --------------------------- Webserver ------------------------------
 WWW_BASE:             /var/www
 WEBSERVER_USER:       nginx

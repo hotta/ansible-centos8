@@ -10,6 +10,8 @@
     line: fastestmirror=true
   become: yes
 
+- import_tasks: stream.yml
+  when: ENABLE_STREAM
 - import_tasks: powertools.yml
 - import_tasks: phprepo.yml
 - import_tasks: mandatory.yml

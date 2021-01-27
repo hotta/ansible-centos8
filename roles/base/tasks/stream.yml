@@ -1,0 +1,28 @@
+---
+- name: roles/base/tasks/stream.yml
+  set_fact: dummy=0
+
+- name: Check centos-release
+  command: cat /etc/centos-release
+  register: cr
+
+# - debug: var=cr
+#   failed_when: true
+
+- name: Get centos-release-stream
+  dnf:
+    name: centos-release-stream
+  become: yes
+  when: cr.stdout != 'CentOS Stream release 8'
+
+- name: Swap repository
+  command: dnf swap -y centos-linux-repos centos-stream-repos
+  args:
+    warn: no
+  become: yes
+  when: cr.stdout != 'CentOS Stream release 8'
+
+- name: Do distro-sync
+  command: dnf -y distro-sync
+  become: yes
+  when: cr.stdout != 'CentOS Stream release 8'
