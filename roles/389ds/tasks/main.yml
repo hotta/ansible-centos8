@@ -1,0 +1,44 @@
+---
+- name: roles/389ds/main.yml
+  set_fact: dummy=0
+
+# 389-ds-base{,-libs}, cockpit-389-ds will be installed
+- name: Install 389-directory-server
+  command: dnf module install -y 389-directory-server:stable/default
+  args:
+    warn: no
+  become: yes
+
+- name: Grant Access of firewalld
+  firewalld:
+    immediate: yes
+    permanent: yes
+    state: enabled
+    service: ldap
+  become: yes
+  with_items: "{{ DB_DEV_CIDR }}"
+
+- name: Apply changes of firewalld
+  systemd:
+    name: firewalld
+    state: restarted
+    enabled: yes
+  become: yes
+
+- name: fail
+  fail:
+
+# 389-ds-base-legacy-tools will be installed
+# - name: Install 389-directory-server legacy tools
+#   command: dnf module install -y 389-directory-server:stable/legacy
+#   args:
+#     warn: no
+#   become: yes
+
+- name: Deploy template for 386-ds
+  template:
+    src: 389-template
+    dest: /tmp/
+
+- name: Install initial instance
+  command: dscreate from-file /tmp/389-template

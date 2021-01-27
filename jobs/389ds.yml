@@ -1,0 +1,5 @@
+---
+- hosts: localhost
+  roles:
+    - { role: base,       tags: base  }
+    - { role: 389ds,      tags: ldap  }
