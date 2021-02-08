@@ -107,3 +107,4 @@ DB_DEV_CIDR:      [ '192.168.56.0/24' ]
 # ------------------------------ 389-ds --------------------------------
 DS_FQDN:              localhost
 DS_ADMIN_PASS:        dsAdminPass
+DS_COCKPIT_Enabled:   true

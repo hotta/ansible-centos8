@@ -9,7 +9,25 @@
     warn: no
   become: yes
 
-- name: Grant Access of firewalld
+- name: Check if LDAP instance has already been deployed
+  command: dsconf localhost backend suffix list
+  become: yes
+  register: dsconf
+
+# - debug: var=dsconf 
+
+- name: Deploy template for 386-ds
+  template:
+    src: 389-template
+    dest: /tmp/
+  when: dsconf.failed
+
+- name: Install initial instance
+  command: dscreate from-file /tmp/389-template
+  become: yes
+  when: dsconf.failed
+
+- name: Grant Access of firewalld(LDAP)
   firewalld:
     immediate: yes
     permanent: yes
@@ -18,6 +36,16 @@
   become: yes
   with_items: "{{ DB_DEV_CIDR }}"
 
+- name: Grant Access of firewalld(cockpit)
+  firewalld:
+    immediate: yes
+    permanent: yes
+    state: enabled
+    service: cockpit
+  become: yes
+  with_items: "{{ DB_DEV_CIDR }}"
+  when: DS_COCKPIT_Enabled
+
 - name: Apply changes of firewalld
   systemd:
     name: firewalld
@@ -25,20 +53,10 @@
     enabled: yes
   become: yes
 
-- name: fail
-  fail:
-
-# 389-ds-base-legacy-tools will be installed
-# - name: Install 389-directory-server legacy tools
-#   command: dnf module install -y 389-directory-server:stable/legacy
-#   args:
-#     warn: no
-#   become: yes
-
-- name: Deploy template for 386-ds
-  template:
-    src: 389-template
-    dest: /tmp/
-
-- name: Install initial instance
-  command: dscreate from-file /tmp/389-template
+- name: Cockpit Web UI start
+  systemd:
+    name: cockpit
+    state: restarted
+    enabled: yes
+  become: yes
+  when: DS_COCKPIT_Enabled
