@@ -1,0 +1,9 @@
+---
+- name: roles/389ds/tasks/sssd.yml
+  set_fact: dummy=0
+
+- name: Install sssd-ldap
+  dnf:
+    name:
+      - sssd-ldap
+  become: yes

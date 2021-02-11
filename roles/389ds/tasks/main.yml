@@ -44,7 +44,7 @@
     service: cockpit
   become: yes
   with_items: "{{ DB_DEV_CIDR }}"
-  when: DS_COCKPIT_Enabled
+  when: ENABLE_COCKPIT
 
 - name: Apply changes of firewalld
   systemd:
@@ -59,4 +59,8 @@
     state: restarted
     enabled: yes
   become: yes
-  when: DS_COCKPIT_Enabled
+  when: ENABLE_COCKPIT
+
+- import_tasks: sssd.yml
+  when: ENABLE_SSSD_LDAP
+  tags: sssd
