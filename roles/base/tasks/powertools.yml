@@ -2,6 +2,11 @@
 - name: roles/base/tasks/powertools.yml
   set_fact: dummy=0
 
+- name: Install yum-config-manager
+  yum:
+    name: yum-utils
+  become: yes
+
 - name: Enable PowerTools
   command: yum-config-manager --enable powertools
   become: yes
