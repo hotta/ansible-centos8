@@ -24,5 +24,7 @@
 
 - name: Do distro-sync
   command: dnf -y distro-sync
+  args:
+    warn: false
   become: yes
   when: cr.stdout != 'CentOS Stream release 8'
