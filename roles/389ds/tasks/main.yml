@@ -13,10 +13,11 @@
   command: dsconf localhost backend suffix list
   become: yes
   register: dsconf
+  ignore_errors: yes
 
 # - debug: var=dsconf 
 
-- name: Deploy template for 386-ds
+- name: Deploy template for 389-ds
   template:
     src: 389-template
     dest: /tmp/
