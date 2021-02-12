@@ -108,4 +108,4 @@ DB_DEV_CIDR:      [ '192.168.56.0/24' ]
 DS_FQDN:              localhost
 DS_ADMIN_PASS:        dsAdminPass
 ENABLE_COCKPIT:       false
-SSSD_LDAP_ENABLED:    false
+ENABLE_SSSD_LDAP:     false
