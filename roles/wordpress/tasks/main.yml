@@ -1,0 +1,22 @@
+---
+- name: roles/wordpress/tasks/main.yml
+  command: echo
+- name: Remove wordpress installation
+  file:
+    path: "{{ WP_HOME }}"
+    state: absent
+  become: yes
+  tags: wp
+  when: WP_FORCE_REINSTALL == true
+
+- name: import_tasks core.yml
+  import_tasks: core.yml
+  tags: wp
+
+- name: import_tasks otp.yml
+  import_tasks: otp.yml
+  tags: wp, wp-otp
+
+- name: import_tasks updater.yml
+  import_tasks: updater.yml
+  tags: wp, updater
