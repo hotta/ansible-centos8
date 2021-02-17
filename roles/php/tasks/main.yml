@@ -1,0 +1,7 @@
+---
+- name: roles/php/tasks/main.yml
+  set_fact: dummy=0
+
+- import_tasks: remi80.yml
+  when: PHP_REPO == "remi80"
+

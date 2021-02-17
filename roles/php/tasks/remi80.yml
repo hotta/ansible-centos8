@@ -1,0 +1,37 @@
+---
+- name: roles/php/tasks/remi80.yml
+  set_fact: dummy=0
+
+- name: Get module list
+  shell: dnf module list php | grep remi-8
+  args:
+    warn: false
+  register: php_list
+
+# - debug: var=php_list
+
+- name: dnf module reset if not yet be reset
+  command: dnf module reset -y php
+  args:
+    warn: false
+  become: yes
+  when: php_list.stdout_lines == "php  remi-8.0 common [d], devel, minimal PHP scripting language"
+
+- name: Install php as a dnf module
+  command: dnf module install -y php:remi-8.0
+  args:
+    warn: false
+  become: yes
+
+- name: Install php additional packages
+  dnf:
+    name:
+      - php-mysqlnd
+      - php-gd
+      - php-intl
+      - php-pecl-zip
+      - php-pecl-mcrypt
+      - php-pdo
+      - php-pgsql
+      - php-process
+  become: yes
