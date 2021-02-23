@@ -1,0 +1,20 @@
+---
+- name: roles/php/tasks/remove.yml
+  set_fact: dummy=0
+
+- name: remove php module
+  command: dnf module remove php:{{ enabled_php.stdout_lines }}
+  args:
+    warn: false
+  become: yes
+
+- name: remove php packages left
+  dnf:
+    name: php-common
+  become: yes
+
+- name: dnf module reset
+  command: dnf module reset -y php
+  args:
+    warn: false
+  become: yes

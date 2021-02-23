@@ -2,6 +2,30 @@
 - name: roles/php/tasks/main.yml
   set_fact: dummy=0
 
-- import_tasks: remi80.yml
+- name: Set PHP_MODULE_VERSION to remi74
+  set_fact: PHP_MODULE_VERSION=remi-7.4
+  when: PHP_REPO == "remi74"
+
+- name: Set PHP_MODULE_VERSION to remi80
+  set_fact: PHP_MODULE_VERSION=remi-8.0
   when: PHP_REPO == "remi80"
 
+# - debug: var=PHP_MODULE_VERSION
+
+- name: Fail if PHP_REPO is not valid
+  fail:
+  when: PHP_MODULE_VERSION is not defined
+
+- name: Get currently enabaled php module
+  shell: dnf module list php | grep remi | grep '\[e\]' | awk '{print$2}'
+  args:
+    warn: false
+  register: enabled_php
+
+# - debug: var=enabled_php
+
+- import_tasks: remove.yml
+  when: enabled_php.stdout_lines != PHP_REPO
+
+- import_tasks: install.yml
+  when: enabled_php.stdout_lines != PHP_REPO

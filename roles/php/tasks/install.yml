@@ -1,0 +1,22 @@
+---
+- name: roles/php/tasks/install.yml
+  set_fact: dummy=0
+
+- name: Install php as a dnf module
+  command: dnf module install -y php:{{ PHP_MODULE_VERSION }}
+  args:
+    warn: false
+  become: yes
+
+- name: Install php additional packages
+  dnf:
+    name:
+      - php-mysqlnd
+      - php-gd
+      - php-intl
+      - php-pecl-zip
+      - php-pecl-mcrypt
+      - php-pdo
+      - php-pgsql
+      - php-process
+  become: yes
