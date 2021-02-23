@@ -20,3 +20,12 @@
     state: started
     enabled: yes
   become: yes
+  when: ENABLE_FIREWALLD
+
+- name: or Disable firewalld
+  systemd:
+    name: firewalld
+    state: stopped
+    enabled: no
+  become: yes
+  when: not ENABLE_FIREWALLD

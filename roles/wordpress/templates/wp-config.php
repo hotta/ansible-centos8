@@ -13,35 +13,35 @@
  * * データベーステーブル接頭辞
  * * ABSPATH
  *
- * @link http://wpdocs.sourceforge.jp/wp-config.php_%E3%81%AE%E7%B7%A8%E9%9B%86
+ * @link https://ja.wordpress.org/support/article/editing-wp-config-php/
  *
  * @package WordPress
  */
 
-// 注意: 
+// 注意:
 // Windows の "メモ帳" でこのファイルを編集しないでください !
 // 問題なく使えるテキストエディタ
-// (http://wpdocs.sourceforge.jp/Codex:%E8%AB%87%E8%A9%B1%E5%AE%A4 参照)
+// (http://wpdocs.osdn.jp/%E7%94%A8%E8%AA%9E%E9%9B%86#.E3.83.86.E3.82.AD.E3.82.B9.E3.83.88.E3.82.A8.E3.83.87.E3.82.A3.E3.82.BF 参照)
 // を使用し、必ず UTF-8 の BOM なし (UTF-8N) で保存してください。
 
 // ** MySQL 設定 - この情報はホスティング先から入手してください。 ** //
 /** WordPress のためのデータベース名 */
-define('DB_NAME', '{{ WP_DB_NAME }}');
+define( 'DB_NAME', '{{ WP_DB_NAME }}' );
 
 /** MySQL データベースのユーザー名 */
-define('DB_USER', '{{ WP_DB_USER }}');
+define( 'DB_USER', '{{ WP_DB_USER }}' );
 
 /** MySQL データベースのパスワード */
-define('DB_PASSWORD', '{{ WP_DB_PASSWORD }}');
+define( 'DB_PASSWORD', '{{ WP_DB_PASSWORD }}' );
 
 /** MySQL のホスト名 */
-define('DB_HOST', '{{ WP_DB_HOST }}');
+define( 'DB_HOST', '{{ WP_DB_HOST }}' );
 
 /** データベースのテーブルを作成する際のデータベースの文字セット */
-define('DB_CHARSET', 'utf8');
+define( 'DB_CHARSET', 'utf8' );
 
 /** データベースの照合順序 (ほとんどの場合変更する必要はありません) */
-define('DB_COLLATE', '');
+define( 'DB_COLLATE', '' );
 
 /**#@+
  * 認証用ユニークキー
@@ -52,14 +52,14 @@ define('DB_COLLATE', '');
  *
  * @since 2.6.0
  */
-define('AUTH_KEY',         '{{"AUTH_KEY"        | password_hash("sha512") }}');
-define('SECURE_AUTH_KEY',  '{{"SECURE_AUTH_KEY" | password_hash("sha512") }}');
-define('LOGGED_IN_KEY',    '{{"LOGGED_IN_KEY"   | password_hash("sha512") }}');
-define('NONCE_KEY',        '{{"NONCE_KEY"       | password_hash("sha512") }}');
-define('AUTH_SALT',        '{{"AUTH_SALT"       | password_hash("sha512") }}');
-define('SECURE_AUTH_SALT', '{{"SECURE_AUTH_SALT"| password_hash("sha512") }}');
-define('LOGGED_IN_SALT',   '{{"LOGGED_IN_SALT"  | password_hash("sha512") }}');
-define('NONCE_SALT',       '{{"NONCE_SALT"      | password_hash("sha512") }}');
+define( 'AUTH_KEY',         '{{"AUTH_KEY"        | password_hash("sha512") }}' );
+define( 'SECURE_AUTH_KEY',  '{{"SECURE_AUTH_KEY" | password_hash("sha512") }}' );
+define( 'LOGGED_IN_KEY',    '{{"LOGGED_IN_KEY"   | password_hash("sha512") }}' );
+define( 'NONCE_KEY',        '{{"NONCE_KEY"       | password_hash("sha512") }}' );
+define( 'AUTH_SALT',        '{{"AUTH_SALT"       | password_hash("sha512") }}' );
+define( 'SECURE_AUTH_SALT', '{{"SECURE_AUTH_SALT"| password_hash("sha512") }}' );
+define( 'LOGGED_IN_SALT',   '{{"LOGGED_IN_SALT"  | password_hash("sha512") }}' );
+define( 'NONCE_SALT',       '{{"NONCE_SALT"      | password_hash("sha512") }}' );
 
 /**#@-*/
 
@@ -69,7 +69,7 @@ define('NONCE_SALT',       '{{"NONCE_SALT"      | password_hash("sha512") }}');
  * それぞれにユニーク (一意) な接頭辞を与えることで一つのデータベースに複数の WordPress を
  * インストールすることができます。半角英数字と下線のみを使用してください。
  */
-$table_prefix  = 'wp_';
+$table_prefix = 'wp_';
 
 /**
  * 開発者へ: WordPress デバッグモード
@@ -77,17 +77,18 @@ $table_prefix  = 'wp_';
  * この値を true にすると、開発中に注意 (notice) を表示します。
  * テーマおよびプラグインの開発者には、その開発環境においてこの WP_DEBUG を使用することを強く推奨します。
  *
- * その他のデバッグに利用できる定数については Codex をご覧ください。
+ * その他のデバッグに利用できる定数についてはドキュメンテーションをご覧ください。
  *
- * @link http://wpdocs.osdn.jp/WordPress%E3%81%A7%E3%81%AE%E3%83%87%E3%83%90%E3%83%83%E3%82%B0
+ * @link https://ja.wordpress.org/support/article/debugging-in-wordpress/
  */
-define('WP_DEBUG', true);
+define( 'WP_DEBUG', true );
 
-/* 編集が必要なのはここまでです ! WordPress でブログをお楽しみください。 */
+/* 編集が必要なのはここまでです ! WordPress でのパブリッシングをお楽しみください。 */
 
 /** Absolute path to the WordPress directory. */
-if ( !defined('ABSPATH') )
-	define('ABSPATH', dirname(__FILE__) . '/');
+if ( ! defined( 'ABSPATH' ) ) {
+	define( 'ABSPATH', __DIR__ . '/' );
+}
 
 /** Sets up WordPress vars and included files. */
-require_once(ABSPATH . 'wp-settings.php');
+require_once ABSPATH . 'wp-settings.php';

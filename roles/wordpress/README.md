@@ -6,22 +6,17 @@ This playbook installs WordPress environment with following features:
   - companion-auto-update plugin : updates all components background
   - ssh-sftp-updater-support plugin : add SSH2 support to update feature in administration screen
 
-# Building local environment
 
-Follow the prerequisite section of [this repository's top page](https://github.com/hotta/ansible-centos7). Then run:
+Follow the prerequisite section of [this repository's top page](https://github.com/hotta/ansible-centos8). Then run:
 
 ```bash
 ansible-playbook jobs/wordpress.yml
 ```
 
-In case the command went well, add "wordpress.local" host entry to your mother OS's hosts file with your favorite editor software. I am using Windows10 and [Gnu for Windows](https://github.com/bmatzelle/gow) so that I can use Unix/Linux's command line utilities including vim on Windows. It may lookxs like:
+If the command went well, add "wordpress.local" host entry to your mother OS's hosts file.
 
 ```bash
-vim c:/windows/system32/drivers/etc/hosts
-cat c:/windows/system32/drivers/etc/hosts
-(snip)
-192.168.56.2    xxxx   wordpress.local
-(snip)
+192.168.56.2    wordpress.local
 ```
 
 The IP address above is the one you specified as "private_network" in Vagrantfile. Then visit http://wordpress.local and you will see the WordPress's default top page.
@@ -31,7 +26,7 @@ The IP address above is the one you specified as "private_network" in Vagrantfil
 Visit http://wordpress.local/wp-admin/ and you will see login page.
 
 ![Screenshot](https://github.com/hotta/images/blob/master/wp-login.png?raw=true) 
-There already be the OTP input area but it is disabled by default. Input user id and password defined as WP_ADMIN_USER / WP_ADMINPASS in host_vars/localhost.yml. Login as the administrator, then select "Edit Profile" in "Hello (YOURNAME)" at the top right.
+There already be the OTP input area but it is disabled by default. Input user id and password defined as WP_ADMIN_USER / WP_ADMINPASS in group_vars/all or host_vars/localhost.yml (if any). Login as the administrator, then select "Edit Profile" in "Hello (YOURNAME)" at the top right.
 
 ![Screenshot](https://github.com/hotta/images/blob/master/wp-otp-set.PNG?raw=true)
 

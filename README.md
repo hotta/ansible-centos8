@@ -65,6 +65,7 @@ $ ansible-playbook jobs/JOB-NAME-YOU-WANT-TO-DEPLOY.yml
 
 ## Components versions
 
-### tested ( as of 2020/12/08 ).
+### tested ( as of 2021/02/23 ).
 
-- nothing :-)
+- WordPress-5.6.2
+- PHP-7.4 / 8.0

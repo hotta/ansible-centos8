@@ -25,3 +25,4 @@
   become: yes
   with_items: "{{ DB_DEV_CIDR }}"
   notify: restart firewalld
+  when: ENABLE_FIREWALLD

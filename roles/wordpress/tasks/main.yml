@@ -1,6 +1,7 @@
 ---
 - name: roles/wordpress/tasks/main.yml
-  command: echo
+  set_fact: dummy=0
+
 - name: Remove wordpress installation
   file:
     path: "{{ WP_HOME }}"

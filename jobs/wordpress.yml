@@ -1,0 +1,6 @@
+# ansible-playbook wordpress.yml
+---
+- hosts: localhost
+  roles:
+    - services
+    - wordpress
