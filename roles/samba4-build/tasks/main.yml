@@ -22,7 +22,9 @@
 
 - name: Install Development-Tools
   dnf:
-    name: "@Development Tools"
+    name: 
+      - "@Development Tools"
+      - rpmdevtools
   become: yes
 
 - name: Install mandatory packages
