@@ -106,4 +106,20 @@
       - tree
       - xfsprogs-devel
   become: yes
+
+- name: Install mock stuff
+  dnf:
+    name:
+      - mock-core-configs
+  become: yes
+
+- name: Enable devel section of centos-8.tpl mock
+  ansible.builtin.replace:
+    path: /etc/mock/templates/centos-8.tpl
+    regexp: 'enabled=0'
+    replace: 'enabled=1'
+    after: 'Devel WARNING!'
+    before: 'gpgkey'
+  become: yes
   tags: new
+
